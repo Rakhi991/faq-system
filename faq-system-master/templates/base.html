@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FAQ System{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --background-color: #f8f9fa;
+            --text-color: #2c3e50;
+            --border-radius: 15px;
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .navbar {
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+            background: linear-gradient(135deg, var(--primary-color), #0056b3);
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        .language-selector {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .language-selector .btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            transition: all var(--transition-speed) ease;
+            border: 2px solid transparent;
+        }
+
+        .language-selector .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,.1);
+            border-color: var(--primary-color);
+        }
+
+        .language-selector .btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0,0,0,.05);
+            transition: all var(--transition-speed) ease;
+            border: none;
+            overflow: hidden;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,.1);
+        }
+
+        .faq-item .card-body {
+            padding: 25px;
+        }
+
+        .faq-item .card-title {
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .faq-item .card-title i.fa-chevron-down {
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .faq-item .card-title[aria-expanded="true"] i.fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .answer {
+            color: var(--secondary-color);
+            line-height: 1.6;
+            padding-left: 30px;
+        }
+
+        .page-title {
+            color: var(--text-color);
+            font-weight: 700;
+            margin: 40px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .page-title:after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-container .input-group {
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .search-container .input-group-text {
+            border: none;
+            padding: 12px 20px;
+        }
+
+        .search-container .form-control {
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+        }
+
+        .search-container .form-control:focus {
+            box-shadow: none;
+            border-color: var(--primary-color);
+        }
+
+        .highlight {
+            animation: highlightFade 1s ease;
+        }
+
+        @keyframes highlightFade {
+            0% { background-color: rgba(13, 110, 253, 0.1); }
+            100% { background-color: transparent; }
+        }
+
+        .collapse {
+            transition: all var(--transition-speed) ease;
+        }
+
+        .alert {
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            background: white;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .faq-item {
+                margin-bottom: 15px;
+            }
+            .language-selector {
+                flex-wrap: wrap;
+            }
+            .language-selector .btn {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+
+        .nav-item .nav-link {
+            position: relative;
+            padding: 8px 15px;
+            color: rgba(255,255,255,.9) !important;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .nav-item .nav-link:hover {
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+        .nav-item .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: white;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .nav-item .nav-link:hover:after {
+            width: 100%;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-question-circle me-2"></i>FAQ System
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/">
+                            <i class="fas fa-cog me-1"></i>Admin
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

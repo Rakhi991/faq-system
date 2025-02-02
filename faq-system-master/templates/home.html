@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="page-title">Frequently Asked Questions</h1>
+
+<div class="language-selector">
+    <a href="?lang=en" class="btn {% if current_language == 'en' %}active{% endif %}">
+        <i class="fas fa-globe-americas me-2"></i>English
+    </a>
+    <a href="?lang=hi" class="btn {% if current_language == 'hi' %}active{% endif %}">
+        <i class="fas fa-language me-2"></i>हिंदी
+    </a>
+    <a href="?lang=bn" class="btn {% if current_language == 'bn' %}active{% endif %}">
+        <i class="fas fa-globe-asia me-2"></i>বাংলা
+    </a>
+</div>
+
+<div class="search-container mt-4 mb-4">
+    <div class="input-group">
+        <span class="input-group-text bg-primary text-white">
+            <i class="fas fa-search"></i>
+        </span>
+        <input type="text" id="faqSearch" class="form-control" placeholder="Search FAQs...">
+    </div>
+</div>
+
+<div class="faq-container" id="faqAccordion">
+    {% if faqs %}
+        {% for faq in faqs %}
+            <div class="card faq-item" data-faq-content="{{ faq.question|lower }} {{ faq.answer|lower }}">
+                <div class="card-body">
+                    <h5 class="card-title" data-bs-toggle="collapse" data-bs-target="#faq{{ forloop.counter }}" 
+                        aria-expanded="false" style="cursor: pointer;">
+                        <i class="fas fa-question-circle text-primary me-2"></i>
+                        {{ faq.question }}
+                        <i class="fas fa-chevron-down float-end"></i>
+                    </h5>
+                    <div class="collapse" id="faq{{ forloop.counter }}">
+                        <div class="answer mt-3">
+                            <i class="fas fa-angle-right text-primary me-2"></i>
+                            {{ faq.answer|safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info text-center">
+            <i class="fas fa-info-circle me-2"></i>
+            No FAQs available at the moment. Please check back later.
+        </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('faqSearch');
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        
+        faqItems.forEach(item => {
+            const content = item.getAttribute('data-faq-content');
+            if (content.includes(searchTerm)) {
+                item.style.display = 'block';
+                if (searchTerm) {
+                    item.classList.add('highlight');
+                } else {
+                    item.classList.remove('highlight');
+                }
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
